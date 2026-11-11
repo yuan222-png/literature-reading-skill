@@ -1,0 +1,242 @@
+/* 三个阶段共用的阅读参数，包括字体栈、正文字号、行高、首行缩进与段后间距。 */
+:root {
+    color-scheme: light;
+    --reading-font:
+        "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+    --reading-size: 18px;
+    --reading-line-height: 1.8;
+    --reading-indent: 2em;
+    --reading-paragraph-gap: 0.75em;
+}
+
+/* 将内边距和边框计入元素尺寸，便于控制内容宽度。 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 设置全局阅读字体与行距，并保持移动端文字缩放比例为 100%。 */
+html {
+    font-family: var(--reading-font);
+    font-size: var(--reading-size);
+    line-height: var(--reading-line-height);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* 页面使用白底深色文字，清除默认外边距并继承统一排版参数。 */
+body {
+    margin: 0;
+    background: #fff;
+    color: #222;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: left;
+}
+
+/* 主阅读区域居中，最大宽度为 1280px，宽屏内边距为 40px，长文本可换行。 */
+.reading-document {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px;
+    overflow-wrap: anywhere;
+}
+
+/* 正文及结构性文字统一使用 18px、常规字重、1.8 倍行高和左对齐。 */
+.reading-document
+    :where(
+        p,
+        li,
+        dt,
+        dd,
+        blockquote,
+        figcaption,
+        th,
+        td,
+        caption,
+        nav,
+        .locator,
+        .language-label,
+        .table-scroll,
+        .math-block
+    ) {
+    font-family: inherit;
+    font-size: var(--reading-size);
+    font-weight: 400;
+    line-height: var(--reading-line-height);
+    text-align: left;
+}
+
+/* 普通段落首行缩进 2em，段前无间距，段后留出 0.75em。 */
+.reading-document p {
+    margin: 0 0 var(--reading-paragraph-gap);
+    text-indent: var(--reading-indent);
+}
+
+/* 各级标题共用加粗、左对齐、无首行缩进及 1.5 倍行高。 */
+.reading-document :where(h1, h2, h3, h4, h5, h6) {
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+    text-indent: 0;
+}
+
+/* 文档主标题为 28px，段前无间距，段后为 24px。 */
+.reading-document h1 {
+    margin: 0 0 24px;
+    font-size: 28px;
+}
+
+/* 章节标题为 24px，段前为 32px，段后为 16px。 */
+.reading-document h2 {
+    margin: 32px 0 16px;
+    font-size: 24px;
+}
+
+/* 子节标题为 20px，段前为 24px，段后为 12px。 */
+.reading-document h3 {
+    margin: 24px 0 12px;
+    font-size: 20px;
+}
+
+/* 更深层标题为 18px，间距与子节标题一致。 */
+.reading-document :where(h4, h5, h6) {
+    margin: 24px 0 12px;
+    font-size: 18px;
+}
+
+/* 列表保留标记所需的左侧空间，列表整体段后间距与正文一致。 */
+.reading-document :where(ul, ol) {
+    margin: 0 0 var(--reading-paragraph-gap);
+    padding-left: 2em;
+}
+
+/* 列表项不做首行缩进，项间保留少量间距。 */
+.reading-document li {
+    margin: 0 0 0.25em;
+    text-indent: 0;
+}
+
+/* 目录、来源定位与语言标识采用统一段后间距，不做首行缩进。 */
+.reading-document :where(nav, .locator, .language-label) {
+    margin: 0 0 var(--reading-paragraph-gap);
+    text-indent: 0;
+}
+
+/* 图组与引用块使用正文段后间距，清除浏览器默认外边距。 */
+.reading-document :where(figure, blockquote) {
+    margin: 0 0 var(--reading-paragraph-gap);
+}
+
+/* 原图居中并等比例缩放，宽度不超出所在容器。 */
+.reading-document img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 0.75em;
+}
+
+/* 图注使用统一段后间距，不做首行缩进。 */
+.reading-document figcaption {
+    margin: 0 0 var(--reading-paragraph-gap);
+    text-indent: 0;
+}
+
+/* 宽表格在容器内横向滚动，避免撑宽整页。 */
+.reading-document .table-scroll {
+    max-width: 100%;
+    margin: 0 0 var(--reading-paragraph-gap);
+    overflow-x: auto;
+    text-indent: 0;
+}
+
+/* 表格占满容器宽度，合并边框并使用统一正文排版参数。 */
+.reading-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: inherit;
+    font-size: var(--reading-size);
+    line-height: var(--reading-line-height);
+}
+
+/* 单元格使用统一内边距与浅灰边框，内容顶部对齐且无首行缩进。 */
+.reading-document :where(th, td) {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    text-indent: 0;
+}
+
+/* 表头通过加粗区分，沿用统一字号与行高。 */
+.reading-document th {
+    font-weight: 700;
+}
+
+/* 表题使用统一段后间距，不做首行缩进。 */
+.reading-document caption {
+    margin: 0 0 var(--reading-paragraph-gap);
+    text-indent: 0;
+}
+
+/* 结构性元素内部的段落同样取消首行缩进，覆盖普通段落规则。 */
+.reading-document
+    :where(li, th, td, caption, figcaption, nav, .locator, .language-label)
+    p {
+    text-indent: 0;
+}
+
+/* 每对中英文段落占一行，两栏等宽、顶部对齐，栏间距为 32px。 */
+.reading-document .parallel-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+}
+
+/* 允许对照单元格收缩，使长内容由内部换行或滚动规则处理。 */
+.reading-document .parallel-cell {
+    min-width: 0;
+}
+
+/* 代码与小号文字继承上下文排版，避免浏览器默认字体或字号造成差异。 */
+.reading-document :where(pre, code, small) {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* 预格式化文本保留换行并允许自动折行，超宽内容可横向滚动。 */
+.reading-document pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+/* 独立公式不做首行缩进，超宽时在自身容器内横向滚动。 */
+.reading-document .math-block {
+    max-width: 100%;
+    margin: 0 0 var(--reading-paragraph-gap);
+    overflow-x: auto;
+    text-indent: 0;
+}
+
+/* 链接使用深蓝色并保留下划线，便于识别和定位。 */
+.reading-document a {
+    color: #174b80;
+    text-decoration: underline;
+}
+
+/* 视口不超过 760px 时缩小页面内边距，并将同段中英文改为上下排列。 */
+@media (max-width: 760px) {
+    .reading-document {
+        padding: 20px;
+    }
+
+    .reading-document .parallel-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+}
