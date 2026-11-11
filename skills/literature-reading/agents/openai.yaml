@@ -1,0 +1,3 @@
+interface:
+  display_name: "literature reading"
+  short_description: "仅复述论文与作者观点：先总结、再逐图复述，最后生成中英对照全文"
