@@ -1,4 +1,4 @@
-/* 三个阶段共用的阅读参数，包括字体栈、正文字号、行高、首行缩进与段后间距。 */
+/* 三阶段共用的字体、排版、配色及导航尺寸。生成 HTML 时将本文件完整内嵌。 */
 :root {
     color-scheme: light;
     --reading-font:
@@ -7,44 +7,210 @@
     --reading-line-height: 1.8;
     --reading-indent: 2em;
     --reading-paragraph-gap: 0.75em;
+    --reading-background: #f3f6f7;
+    --reading-surface: #fff;
+    --reading-text: #203744;
+    --reading-accent: #137b8c;
+    --reading-tint: #eaf2f4;
+    --reading-border: #dce6ea;
+    --reading-sidebar-width: 260px;
+    --reading-sidebar-gap: 28px;
 }
 
-/* 将内边距和边框计入元素尺寸，便于控制内容宽度。 */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-/* 设置全局阅读字体与行距，并保持移动端文字缩放比例为 100%。 */
 html {
     font-family: var(--reading-font);
     font-size: var(--reading-size);
     line-height: var(--reading-line-height);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 24px;
 }
 
-/* 页面使用白底深色文字，清除默认外边距并继承统一排版参数。 */
 body {
     margin: 0;
-    background: #fff;
-    color: #222;
+    background: var(--reading-background);
+    color: var(--reading-text);
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     text-align: left;
 }
 
-/* 主阅读区域居中，最大宽度为 1280px，宽屏内边距为 40px，长文本可换行。 */
-.reading-document {
-    max-width: 1280px;
+/* 网格第一列为固定侧栏预留空间，正文始终位于第二列。 */
+.reading-shell {
+    display: grid;
+    grid-template-columns: var(--reading-sidebar-width) minmax(0, 1fr);
+    gap: var(--reading-sidebar-gap);
+    max-width: 1760px;
     margin: 0 auto;
-    padding: 40px;
+    padding: 24px;
+    align-items: start;
+}
+
+.reading-document {
+    grid-column: 2;
+    min-width: 0;
     overflow-wrap: anywhere;
 }
 
-/* 正文及结构性文字统一使用 18px、常规字重、1.8 倍行高和左对齐。 */
+/* 侧栏相对视口固定；折叠由布局模板中的原生 details/summary 提供。 */
+.reading-sidebar {
+    position: fixed;
+    left: 24px;
+    top: 24px;
+    width: var(--reading-sidebar-width);
+    min-width: 0;
+    max-height: calc(100vh - 48px);
+    font-family: inherit;
+    font-size: var(--reading-size);
+    line-height: var(--reading-line-height);
+    text-align: left;
+}
+
+.reading-navigation {
+    overflow: hidden;
+    border: 1px solid var(--reading-border);
+    border-radius: 14px;
+    background: var(--reading-surface);
+}
+
+.reading-navigation > summary {
+    padding: 16px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    text-indent: 0;
+}
+
+/* 长目录仅在左栏内部滚动，避免导航高度随条目数量持续增长。 */
+.navigation-links {
+    max-height: calc(100vh - 128px);
+    padding: 0 12px 16px;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    scrollbar-gutter: stable;
+}
+
+.navigation-links ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navigation-links ol ol {
+    padding-left: 16px;
+}
+
+.navigation-links li {
+    margin: 0;
+}
+
+.navigation-links a {
+    display: block;
+    padding: 7px 8px;
+    border-radius: 6px;
+    color: var(--reading-accent);
+    text-decoration: none;
+}
+
+.navigation-links a:hover,
+.navigation-links a[aria-current="location"] {
+    background: var(--reading-tint);
+}
+
+.navigation-group-title {
+    margin: 16px 8px 8px;
+    font-size: var(--reading-size);
+    font-weight: 700;
+}
+
+/* 内容卡片用于总结条目、单图复述和逐段对照，来源定位统一放在 card-meta。 */
+.reading-card {
+    margin: 0 0 24px;
+    border: 1px solid var(--reading-border);
+    border-radius: 14px;
+    background: var(--reading-surface);
+    box-shadow: 0 2px 8px rgb(32 55 68 / 3%);
+    overflow: hidden;
+}
+
+.reading-card:target {
+    outline: 2px solid var(--reading-accent);
+    outline-offset: 3px;
+}
+
+.card-body {
+    max-width: 52em;
+    margin: 0 auto;
+    padding: 24px 28px;
+}
+
+.card-body > :first-child {
+    margin-top: 0;
+}
+
+.document-header .card-body {
+    max-width: none;
+}
+
+.card-body > :last-child,
+.parallel-cell > :last-child {
+    margin-bottom: 0;
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--reading-border);
+    background: var(--reading-tint);
+    font-size: var(--reading-size);
+    font-weight: 400;
+    line-height: var(--reading-line-height);
+    text-indent: 0;
+}
+
+/* 分组语义由文件决定：总结五栏、原文图号或原文章节；页码可作组内定位。 */
+.source-section {
+    margin: 0 0 40px;
+    scroll-margin-top: 24px;
+}
+
+.section-heading {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--reading-accent);
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+}
+
+.section-original-title {
+    font-size: var(--reading-size);
+    font-weight: 700;
+    line-height: var(--reading-line-height);
+    text-indent: 0;
+}
+
+.page-group {
+    margin-bottom: 28px;
+    scroll-margin-top: 24px;
+}
+
+.page-heading {
+    border-bottom: 1px solid var(--reading-border);
+    padding-bottom: 8px;
+}
+
+/* 正文、图注、表格及定位文字共用字号和行高，标题另按语义层级设置。 */
 .reading-document
     :where(
         p,
@@ -69,13 +235,11 @@ body {
     text-align: left;
 }
 
-/* 普通段落首行缩进 2em，段前无间距，段后留出 0.75em。 */
 .reading-document p {
     margin: 0 0 var(--reading-paragraph-gap);
     text-indent: var(--reading-indent);
 }
 
-/* 各级标题共用加粗、左对齐、无首行缩进及 1.5 倍行高。 */
 .reading-document :where(h1, h2, h3, h4, h5, h6) {
     font-family: inherit;
     font-weight: 700;
@@ -84,54 +248,45 @@ body {
     text-indent: 0;
 }
 
-/* 文档主标题为 28px，段前无间距，段后为 24px。 */
 .reading-document h1 {
     margin: 0 0 24px;
     font-size: 28px;
 }
 
-/* 章节标题为 24px，段前为 32px，段后为 16px。 */
 .reading-document h2 {
     margin: 32px 0 16px;
     font-size: 24px;
 }
 
-/* 子节标题为 20px，段前为 24px，段后为 12px。 */
 .reading-document h3 {
     margin: 24px 0 12px;
     font-size: 20px;
 }
 
-/* 更深层标题为 18px，间距与子节标题一致。 */
 .reading-document :where(h4, h5, h6) {
     margin: 24px 0 12px;
     font-size: 18px;
 }
 
-/* 列表保留标记所需的左侧空间，列表整体段后间距与正文一致。 */
 .reading-document :where(ul, ol) {
     margin: 0 0 var(--reading-paragraph-gap);
     padding-left: 2em;
 }
 
-/* 列表项不做首行缩进，项间保留少量间距。 */
 .reading-document li {
     margin: 0 0 0.25em;
     text-indent: 0;
 }
 
-/* 目录、来源定位与语言标识采用统一段后间距，不做首行缩进。 */
 .reading-document :where(nav, .locator, .language-label) {
     margin: 0 0 var(--reading-paragraph-gap);
     text-indent: 0;
 }
 
-/* 图组与引用块使用正文段后间距，清除浏览器默认外边距。 */
 .reading-document :where(figure, blockquote) {
     margin: 0 0 var(--reading-paragraph-gap);
 }
 
-/* 原图居中并等比例缩放，宽度不超出所在容器。 */
 .reading-document img {
     display: block;
     max-width: 100%;
@@ -139,13 +294,12 @@ body {
     margin: 0 auto 0.75em;
 }
 
-/* 图注使用统一段后间距，不做首行缩进。 */
 .reading-document figcaption {
     margin: 0 0 var(--reading-paragraph-gap);
     text-indent: 0;
 }
 
-/* 宽表格在容器内横向滚动，避免撑宽整页。 */
+/* 宽表格在容器内横向滚动，保留原始行列关系。 */
 .reading-document .table-scroll {
     max-width: 100%;
     margin: 0 0 var(--reading-paragraph-gap);
@@ -153,7 +307,6 @@ body {
     text-indent: 0;
 }
 
-/* 表格占满容器宽度，合并边框并使用统一正文排版参数。 */
 .reading-document table {
     width: 100%;
     border-collapse: collapse;
@@ -162,60 +315,59 @@ body {
     line-height: var(--reading-line-height);
 }
 
-/* 单元格使用统一内边距与浅灰边框，内容顶部对齐且无首行缩进。 */
 .reading-document :where(th, td) {
     padding: 10px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--reading-border);
     vertical-align: top;
     text-indent: 0;
 }
 
-/* 表头通过加粗区分，沿用统一字号与行高。 */
 .reading-document th {
     font-weight: 700;
 }
 
-/* 表题使用统一段后间距，不做首行缩进。 */
 .reading-document caption {
     margin: 0 0 var(--reading-paragraph-gap);
     text-indent: 0;
 }
 
-/* 结构性元素内部的段落同样取消首行缩进，覆盖普通段落规则。 */
+/* 结构性内容中的段落取消首行缩进，普通正文段落仍使用统一的 2em 缩进。 */
 .reading-document
     :where(li, th, td, caption, figcaption, nav, .locator, .language-label)
     p {
     text-indent: 0;
 }
 
-/* 每对中英文段落占一行，两栏等宽、顶部对齐，栏间距为 32px。 */
+/* 每行对应一对原文与译文；两侧顶部对齐，高度由各自内容决定。 */
 .reading-document .parallel-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 32px;
+    gap: 0;
     align-items: start;
 }
 
-/* 允许对照单元格收缩，使长内容由内部换行或滚动规则处理。 */
 .reading-document .parallel-cell {
     min-width: 0;
+    padding: 24px 28px;
 }
 
-/* 代码与小号文字继承上下文排版，避免浏览器默认字体或字号造成差异。 */
+.reading-document .parallel-cell + .parallel-cell {
+    border-left: 1px solid var(--reading-border);
+}
+
 .reading-document :where(pre, code, small) {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
 }
 
-/* 预格式化文本保留换行并允许自动折行，超宽内容可横向滚动。 */
 .reading-document pre {
     max-width: 100%;
     overflow-x: auto;
     white-space: pre-wrap;
 }
 
-/* 独立公式不做首行缩进，超宽时在自身容器内横向滚动。 */
+/* 长公式独立滚动，避免撑宽正文列。 */
 .reading-document .math-block {
     max-width: 100%;
     margin: 0 0 var(--reading-paragraph-gap);
@@ -223,20 +375,86 @@ body {
     text-indent: 0;
 }
 
-/* 链接使用深蓝色并保留下划线，便于识别和定位。 */
 .reading-document a {
-    color: #174b80;
+    color: var(--reading-accent);
     text-decoration: underline;
 }
 
-/* 视口不超过 760px 时缩小页面内边距，并将同段中英文改为上下排列。 */
+.back-to-nav {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--reading-text);
+    color: #fff;
+    font-size: var(--reading-size);
+    line-height: var(--reading-line-height);
+    text-decoration: none;
+    box-shadow: 0 3px 12px rgb(32 55 68 / 15%);
+}
+
+/* 为键盘访问链接及目录折叠控件提供清晰的焦点标识。 */
+a:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--reading-accent);
+    outline-offset: 3px;
+}
+
+/* 中等屏宽收窄导航及栏间距，正文排版参数沿用默认值。 */
+@media (max-width: 1100px) {
+    :root {
+        --reading-sidebar-width: 200px;
+        --reading-sidebar-gap: 20px;
+    }
+}
+
+/* 窄屏仍保留左侧导航；段落对按 DOM 中的英文、中文顺序改为上下排列。 */
 @media (max-width: 760px) {
-    .reading-document {
+    :root {
+        --reading-sidebar-width: clamp(128px, 30vw, 180px);
+        --reading-sidebar-gap: 16px;
+    }
+
+    .reading-shell {
+        padding: 16px 16px 88px;
+    }
+
+    .reading-sidebar {
+        left: 16px;
+        top: 16px;
+        max-height: calc(100vh - 32px);
+    }
+
+    .navigation-links {
+        max-height: calc(100vh - 112px);
+    }
+
+    .card-body,
+    .reading-document .parallel-cell {
         padding: 20px;
     }
 
     .reading-document .parallel-row {
         grid-template-columns: minmax(0, 1fr);
         gap: 0;
+    }
+
+    .reading-document .parallel-cell + .parallel-cell {
+        border-top: 1px solid var(--reading-border);
+        border-left: 0;
+    }
+
+    .back-to-nav {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+/* 尊重系统的减少动态效果设置，锚点跳转改为即时滚动。 */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
     }
 }

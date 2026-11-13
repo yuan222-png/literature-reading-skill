@@ -1,3 +1,3 @@
 interface:
-  display_name: "literature reading"
-  short_description: "仅复述论文与作者观点：先总结、再逐图复述，最后生成中英对照全文"
+    display_name: "literature reading"
+    short_description: "仅复述论文与作者观点：总结、逐图复述及中英全文均输出统一排版的 HTML"
