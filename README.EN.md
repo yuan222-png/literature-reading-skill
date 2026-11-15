@@ -19,7 +19,8 @@
   <a href="#problems-it-solves">🎯 Problems it solves</a> ·
   <a href="#workflow">🧭 Workflow</a> ·
   <a href="#usage">💬 Usage</a> ·
-  <a href="#repository-contents">📁 Repository contents</a>
+  <a href="#repository-contents">📁 Repository contents</a> ·
+  <a href="#contributors">🤝 Contributors</a>
 </p>
 
 ---
@@ -30,7 +31,7 @@
 
 Literature Reading turns English research papers into Chinese summaries, figure-by-figure explanations, and full English–Chinese parallel texts, helping Chinese-speaking readers progress from an overview to a close reading of the original paper.
 
-Provide a paper as a PDF, attachment, or full-text link. The skill delivers `summary.html`, `figures.html`, and `bilingual.html` in sequence. It provides a link as soon as each file is complete and continues with the remaining stages in the current task. You can read the summary, browse the original figures, and return to the figure restatements and parallel text for a closer reading.
+Provide a paper as a PDF, attachment, or full-text link. The skill delivers `summary.html`, `figures.html`, and `bilingual.html` in sequence. It provides a link as soon as each file is complete and continues with the remaining stages in the current task. All three pages share a warm academic-paper layout and link directly to one another. You can read the summary, browse the original figures, and return to the figure restatements and parallel text for a closer reading.
 
 The repository contains skill instructions, an HTML layout reference, and shared styling resources. The Chinese [SKILL.md](skills/literature-reading/SKILL.md) contains the core instructions, with a corresponding English edition in [SKILL.EN.md](skills/literature-reading/SKILL.EN.md). Summaries, figure restatements, and translations are intended for Chinese-speaking readers.
 
@@ -45,6 +46,7 @@ The repository contains skill instructions, an HTML layout reference, and shared
 | ⚡ **Quickly understand what a paper studies**                           | Organizes source information under five headings covering research background, content, methods, objectives, and conclusions.                                          |
 | 🔍 **Understand complex figures alongside the text**                     | Restates each figure and panel, including labels, experimental controls, statistical information, and the authors’ explanations, with locations in the original paper. |
 | 📑 **Read a long English paper paragraph by paragraph**                  | Pairs the original English with a Chinese translation while preserving sections, captions, tables, equations, and in-text citations.                                   |
+| 🔗 **Switch between the three reading materials**                        | Each page provides links to the paper summary, figure explanations, and parallel text, opening directly in the current tab.                                             |
 | 🧩 **Distinguish the paper’s statements from additional interpretation** | Keeps the output grounded in the paper and its available supplementary materials, preserving attribution, hypotheses, and uncertainty.                                 |
 
 Every stage relies on information explicitly stated or labeled in the paper and any appendices or supplementary materials obtained for that paper. Original numerical values, attribution, speculation, and uncertainty are preserved. Significance, qualifying conditions, or limitations explicitly discussed by the authors remain alongside the relevant conclusions.
@@ -81,9 +83,25 @@ Navigation preserves the original section and subsection numbering, names, hiera
 
 ### 🎨 Consistent HTML styling
 
-All three stages deliver UTF-8 HTML files that open independently offline. They share the same embedded CSS, with images and necessary equation resources also embedded. Pages use a light-gray background, white rounded cards, pale-cyan source metadata bars, and teal separators. Body text uses a consistent 18px size and 1.8 line height.
+All three stages deliver UTF-8 HTML files that open independently offline. They share the same embedded CSS, with images and necessary equation resources also embedded. Pages use a warm academic-paper aesthetic with ivory backgrounds, warm-white cards, ink text, pine-green accents, and pale-sage source metadata bars.
+
+English and Chinese share the same local sans-serif font stack, with 18px body text and 1.8 line height. The title area, fine borders, light shadows, and section spacing establish a clear hierarchy, while single-column text has a controlled line length. File-switching tabs highlight the current page, and links provide hover and keyboard focus states. The title area's subtle fade-in and link transitions respect the system's reduced-motion preference.
 
 Reading navigation stays fixed on the left at every screen width. Long menus scroll independently, with support for collapsing, keyboard operation, native anchor links, and returning to the menu. Narrow screens reduce the sidebar width and stack each bilingual paragraph pair vertically. Layout and styling are defined in [layout.md](skills/literature-reading/references/layout.md) and [reading.css](skills/literature-reading/assets/reading.css).
+
+### 🔗 Navigation between the three pages
+
+The three files for each paper are saved in the same directory. Each page's title area provides the following reading entries.
+
+| Page entry | File | In-page navigation |
+| --- | --- | --- |
+| 论文总结 (Paper summary) | `summary.html` | Research background, content, methods, objectives, and conclusions |
+| 图表解释 (Figure explanations) | `figures.html` | Original figure numbers, with panels kept within their parent figures |
+| 中英对照 (English–Chinese parallel text) | `bilingual.html` | Original sections and subsections, or PDF pages when reliable headings are unavailable |
+
+Each page links directly to the other two completed reading materials in the current tab. Relative links keep the pages navigable offline when the entire directory is moved. The left-hand menu provides navigation within the current page.
+
+During staged delivery, entries for pending pages appear as plain text. After each stage is completed, the corresponding entries in the new page and all previously delivered pages are updated to working links. When only selected stages are requested, entries correspond to the reading files actually generated.
 
 ---
 
@@ -111,6 +129,33 @@ If only an abstract is available, the skill can first deliver a summary explicit
 | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | [SKILL.md](skills/literature-reading/SKILL.md)                         | Core Chinese instructions defining content boundaries, the three-stage workflow, and delivery requirements. |
 | [SKILL.EN.md](skills/literature-reading/SKILL.EN.md)                   | English edition of the core instructions.                                                                   |
-| [references/layout.md](skills/literature-reading/references/layout.md) | HTML page skeleton, card structure, and per-file menu and anchor rules.                                     |
-| [assets/reading.css](skills/literature-reading/assets/reading.css)     | Shared typography, colors, navigation, and responsive styling for all three stages.                         |
+| [references/layout.md](skills/literature-reading/references/layout.md) | HTML page skeleton, warm academic-paper layout, file-switching navigation, and per-file menu and anchor rules. |
+| [assets/reading.css](skills/literature-reading/assets/reading.css)     | Shared fonts, colors, spacing, navigation, subtle interactions, and responsive styling for all three stages. |
 | [agents/openai.yaml](skills/literature-reading/agents/openai.yaml)     | Display name and short description for the skill interface.                                                 |
+
+---
+
+<a name="contributors"></a>
+
+## 🤝 Contributors
+
+Thank you to everyone who contributes to this repository.
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="120">
+      <a href="https://github.com/QingchenJia">
+        <img src="https://avatars.githubusercontent.com/u/163372309?v=4&amp;s=160" width="80" height="80" alt="QingchenJia's avatar"><br>
+        <sub><b>QingchenJia</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="120">
+      <a href="https://github.com/yuan222-png">
+        <img src="https://avatars.githubusercontent.com/u/237383760?v=4&amp;s=160" width="80" height="80" alt="yuan222-png's avatar"><br>
+        <sub><b>yuan222-png</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+[View all contributors](https://github.com/yuan222-png/literature-reading-skill/graphs/contributors)

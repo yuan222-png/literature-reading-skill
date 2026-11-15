@@ -2,19 +2,22 @@
 :root {
     color-scheme: light;
     --reading-font:
-        "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+        "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", "PingFang SC",
+        sans-serif;
     --reading-size: 18px;
     --reading-line-height: 1.8;
     --reading-indent: 2em;
-    --reading-paragraph-gap: 0.75em;
-    --reading-background: #f3f6f7;
-    --reading-surface: #fff;
-    --reading-text: #203744;
-    --reading-accent: #137b8c;
-    --reading-tint: #eaf2f4;
-    --reading-border: #dce6ea;
+    --reading-paragraph-gap: 1em;
+    --reading-background: #f4f1e9;
+    --reading-surface: #fffdf8;
+    --reading-text: #292f2c;
+    --reading-muted: #626d65;
+    --reading-accent: #3d6356;
+    --reading-tint: #eef1e9;
+    --reading-border: #dedfd3;
+    --reading-page-padding: 32px;
     --reading-sidebar-width: 260px;
-    --reading-sidebar-gap: 28px;
+    --reading-sidebar-gap: 36px;
 }
 
 *,
@@ -35,7 +38,8 @@ html {
 
 body {
     margin: 0;
-    background: var(--reading-background);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f5ef, var(--reading-background) 55%);
     color: var(--reading-text);
     font-family: inherit;
     font-size: inherit;
@@ -50,7 +54,7 @@ body {
     gap: var(--reading-sidebar-gap);
     max-width: 1760px;
     margin: 0 auto;
-    padding: 24px;
+    padding: var(--reading-page-padding);
     align-items: start;
 }
 
@@ -63,11 +67,14 @@ body {
 /* 侧栏相对视口固定；折叠由布局模板中的原生 details/summary 提供。 */
 .reading-sidebar {
     position: fixed;
-    left: 24px;
-    top: 24px;
+    left: max(
+        var(--reading-page-padding),
+        calc((100% - 1760px) / 2 + var(--reading-page-padding))
+    );
+    top: var(--reading-page-padding);
     width: var(--reading-sidebar-width);
     min-width: 0;
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - 2 * var(--reading-page-padding));
     font-family: inherit;
     font-size: var(--reading-size);
     line-height: var(--reading-line-height);
@@ -76,25 +83,26 @@ body {
 
 .reading-navigation {
     overflow: hidden;
-    border: 1px solid var(--reading-border);
-    border-radius: 14px;
-    background: var(--reading-surface);
+    border-left: 1px solid var(--reading-border);
 }
 
 .reading-navigation > summary {
-    padding: 16px 18px;
-    font-weight: 700;
+    padding: 16px 14px;
+    color: var(--reading-accent);
+    font-weight: 600;
     cursor: pointer;
     text-indent: 0;
 }
 
 /* 长目录仅在左栏内部滚动，避免导航高度随条目数量持续增长。 */
 .navigation-links {
-    max-height: calc(100vh - 128px);
-    padding: 0 12px 16px;
+    max-height: calc(100vh - 2 * var(--reading-page-padding) - 80px);
+    padding: 4px 8px 16px;
     overflow-y: auto;
     overflow-wrap: anywhere;
     scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--reading-border) transparent;
 }
 
 .navigation-links ol {
@@ -113,15 +121,19 @@ body {
 
 .navigation-links a {
     display: block;
-    padding: 7px 8px;
-    border-radius: 6px;
-    color: var(--reading-accent);
+    padding: 9px 12px;
+    border-left: 2px solid transparent;
+    border-radius: 0 5px 5px 0;
+    color: var(--reading-muted);
     text-decoration: none;
+    transition: color 140ms ease, background-color 140ms ease;
 }
 
 .navigation-links a:hover,
 .navigation-links a[aria-current="location"] {
     background: var(--reading-tint);
+    color: var(--reading-accent);
+    border-left-color: var(--reading-accent);
 }
 
 .navigation-group-title {
@@ -132,11 +144,11 @@ body {
 
 /* 内容卡片用于总结条目、单图复述和逐段对照，来源定位统一放在 card-meta。 */
 .reading-card {
-    margin: 0 0 24px;
+    margin: 0 0 28px;
     border: 1px solid var(--reading-border);
-    border-radius: 14px;
+    border-radius: 8px;
     background: var(--reading-surface);
-    box-shadow: 0 2px 8px rgb(32 55 68 / 3%);
+    box-shadow: 0 3px 12px rgb(51 57 43 / 3%);
     overflow: hidden;
 }
 
@@ -146,9 +158,9 @@ body {
 }
 
 .card-body {
-    max-width: 52em;
+    max-width: 48em;
     margin: 0 auto;
-    padding: 24px 28px;
+    padding: 28px 36px;
 }
 
 .card-body > :first-child {
@@ -157,6 +169,46 @@ body {
 
 .document-header .card-body {
     max-width: none;
+    padding: 36px 36px 40px;
+}
+
+.document-header {
+    border-top: 3px solid var(--reading-accent);
+    margin-bottom: 48px;
+    animation: document-enter 220ms ease-out;
+}
+
+.reading-document .document-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 0;
+    padding: 12px 20px 0;
+    border-bottom: 1px solid var(--reading-border);
+}
+
+.reading-document .document-switcher > * {
+    flex: 1 1 8em;
+    min-width: 0;
+    padding: 12px 16px;
+    border-bottom: 2px solid transparent;
+    border-radius: 4px 4px 0 0;
+    color: var(--reading-muted);
+    text-align: center;
+    text-decoration: none;
+    transition: color 140ms ease, background-color 140ms ease;
+}
+
+.reading-document .document-switcher a:hover {
+    color: var(--reading-accent);
+    background: var(--reading-tint);
+}
+
+.reading-document .document-switcher [aria-current="page"] {
+    border-bottom-color: var(--reading-accent);
+    background: var(--reading-tint);
+    color: var(--reading-accent);
+    font-weight: 600;
 }
 
 .card-body > :last-child,
@@ -167,37 +219,40 @@ body {
 .card-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 16px;
-    padding: 10px 20px;
+    gap: 6px 20px;
+    padding: 12px 28px;
     border-bottom: 1px solid var(--reading-border);
     background: var(--reading-tint);
     font-size: var(--reading-size);
     font-weight: 400;
     line-height: var(--reading-line-height);
     text-indent: 0;
+    color: var(--reading-muted);
 }
 
 /* 分组语义由文件决定：总结五栏、原文图号或原文章节；页码可作组内定位。 */
 .source-section {
-    margin: 0 0 40px;
+    margin: 0 0 48px;
     scroll-margin-top: 24px;
 }
 
 .section-heading {
-    margin-bottom: 20px;
-    padding-bottom: 14px;
-    border-bottom: 2px solid var(--reading-accent);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--reading-border);
 }
 
 .section-heading h2 {
     margin-bottom: 8px;
+    color: var(--reading-accent);
 }
 
 .section-original-title {
     font-size: var(--reading-size);
-    font-weight: 700;
+    font-weight: 400;
     line-height: var(--reading-line-height);
     text-indent: 0;
+    color: var(--reading-muted);
 }
 
 .page-group {
@@ -244,13 +299,17 @@ body {
     font-family: inherit;
     font-weight: 700;
     line-height: 1.5;
+    text-wrap: pretty;
     text-align: left;
     text-indent: 0;
 }
 
 .reading-document h1 {
     margin: 0 0 24px;
-    font-size: 28px;
+    max-width: 30em;
+    font-size: clamp(28px, 2.5vw, 36px);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
 }
 
 .reading-document h2 {
@@ -281,6 +340,15 @@ body {
 .reading-document :where(nav, .locator, .language-label) {
     margin: 0 0 var(--reading-paragraph-gap);
     text-indent: 0;
+}
+
+.reading-document :where(.locator, .language-label) {
+    color: var(--reading-muted);
+}
+
+.reading-document .language-label {
+    font-weight: 600;
+    margin-bottom: 16px;
 }
 
 .reading-document :where(figure, blockquote) {
@@ -324,6 +392,7 @@ body {
 
 .reading-document th {
     font-weight: 700;
+    background: var(--reading-tint);
 }
 
 .reading-document caption {
@@ -343,12 +412,12 @@ body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 0;
-    align-items: start;
+    align-items: stretch;
 }
 
 .reading-document .parallel-cell {
     min-width: 0;
-    padding: 24px 28px;
+    padding: 28px 36px;
 }
 
 .reading-document .parallel-cell + .parallel-cell {
@@ -378,6 +447,8 @@ body {
 .reading-document a {
     color: var(--reading-accent);
     text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
 }
 
 .back-to-nav {
@@ -385,14 +456,29 @@ body {
     right: 24px;
     bottom: 24px;
     z-index: 2;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: var(--reading-text);
-    color: #fff;
+    padding: 8px 14px;
+    border: 1px solid var(--reading-border);
+    border-radius: 6px;
+    background: var(--reading-surface);
+    color: var(--reading-accent);
     font-size: var(--reading-size);
     line-height: var(--reading-line-height);
     text-decoration: none;
-    box-shadow: 0 3px 12px rgb(32 55 68 / 15%);
+    box-shadow: 0 3px 12px rgb(51 57 43 / 6%);
+    transition: background-color 140ms ease;
+}
+
+.back-to-nav:hover {
+    background: var(--reading-tint);
+}
+
+@keyframes document-enter {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* 为键盘访问链接及目录折叠控件提供清晰的焦点标识。 */
@@ -407,6 +493,7 @@ summary:focus-visible {
     :root {
         --reading-sidebar-width: 200px;
         --reading-sidebar-gap: 20px;
+        --reading-page-padding: 24px;
     }
 }
 
@@ -415,25 +502,42 @@ summary:focus-visible {
     :root {
         --reading-sidebar-width: clamp(128px, 30vw, 180px);
         --reading-sidebar-gap: 16px;
+        --reading-page-padding: 16px;
     }
 
     .reading-shell {
         padding: 16px 16px 88px;
     }
 
-    .reading-sidebar {
-        left: 16px;
-        top: 16px;
-        max-height: calc(100vh - 32px);
+    .reading-document .document-switcher {
+        gap: 4px;
+        padding: 8px 12px;
+    }
+
+    .reading-document .document-switcher > * {
+        padding: 8px 12px;
+    }
+
+    .reading-navigation > summary {
+        padding: 12px 8px;
     }
 
     .navigation-links {
-        max-height: calc(100vh - 112px);
+        padding: 4px 4px 12px;
+    }
+
+    .navigation-links a {
+        padding: 8px 6px;
     }
 
     .card-body,
+    .document-header .card-body,
     .reading-document .parallel-cell {
         padding: 20px;
+    }
+
+    .card-meta {
+        padding: 10px 16px;
     }
 
     .reading-document .parallel-row {
@@ -456,5 +560,15 @@ summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .document-header {
+        animation: none;
+    }
+
+    .navigation-links a,
+    .reading-document .document-switcher > *,
+    .back-to-nav {
+        transition: none;
     }
 }
