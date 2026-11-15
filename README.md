@@ -19,7 +19,8 @@
   <a href="#skill-解决的问题">🎯 解决的问题</a> ·
   <a href="#skill-的工作流程概要">🧭 工作流程</a> ·
   <a href="#使用方式">💬 使用方式</a> ·
-  <a href="#仓库内容">📁 仓库内容</a>
+  <a href="#仓库内容">📁 仓库内容</a> ·
+  <a href="#建设者">🤝 建设者</a>
 </p>
 
 ---
@@ -30,7 +31,7 @@
 
 Literature Reading 将英文科研论文整理为中文总结、逐图复述和中英对照全文，帮助中文读者从了解研究内容逐步进入原文精读。
 
-提供论文 PDF、附件或全文链接后，Skill 会依次交付 `summary.html`、`figures.html` 和 `bilingual.html`。每个文件完成后立即提供链接，并在当前任务中继续后续阶段。你可以先阅读总结、自行浏览原图，再结合逐图复述和对照全文细读论文。
+提供论文 PDF、附件或全文链接后，Skill 会依次交付 `summary.html`、`figures.html` 和 `bilingual.html`。每个文件完成后立即提供链接，并在当前任务中继续后续阶段。三份网页采用统一的暖纸学术排版，通过页面内的超链接自由切换。你可以先阅读总结、自行浏览原图，再结合逐图复述和对照全文细读论文。
 
 仓库包含技能指令、HTML 布局参考与共用样式资源。中文 [SKILL.md](skills/literature-reading/SKILL.md) 是核心指令，[SKILL.EN.md](skills/literature-reading/SKILL.EN.md) 提供对应英文版。总结、逐图复述与译文均面向中文读者。
 
@@ -45,6 +46,7 @@ Literature Reading 将英文科研论文整理为中文总结、逐图复述和�
 | ⚡ **快速了解一篇论文的研究内容** | 按研究背景、研究内容、研究方法、研究目的、研究结论五栏整理原文信息。           |
 | 🔍 **对照正文理解复杂图像**       | 按图号和子图逐一复述标注、实验对照、统计信息及作者给出的解释，并保留原文定位。 |
 | 📑 **逐段阅读英文长文**           | 配对呈现英文原文与中文译文，保留章节、图注、表格、公式和文内引用。             |
+| 🔗 **在三份阅读材料间切换**       | 每页提供论文总结、图表解释和中英对照入口，在当前标签页直接跳转。               |
 | 🧩 **区分论文表述与额外解读**     | 将输出限定在论文及已取得的本篇补充材料内，保留作者观点的归属、推测和不确定性。 |
 
 所有阶段均以论文及已取得的本篇附录、补充材料中明确写出或标注的信息为依据。保留原文数值、作者观点归属、推测和不确定性。作者明确讨论的意义、限定条件或局限随对应结论保留。
@@ -81,9 +83,25 @@ Literature Reading 将英文科研论文整理为中文总结、逐图复述和�
 
 ### 🎨 统一 HTML 排版
 
-三个阶段均交付可独立离线打开的 UTF-8 HTML。共用同一份内嵌 CSS，图片与必要的公式资源也内嵌。页面使用浅灰背景、白色圆角卡片、淡青来源信息栏与青色分隔线，正文统一为 18px、1.8 倍行高。
+三个阶段均交付可独立离线打开的 UTF-8 HTML。共用同一份内嵌 CSS，图片与必要的公式资源也内嵌。页面采用暖纸学术风格，以米白背景、暖白卡片、墨色正文、松绿强调和淡鼠尾草色来源栏组织阅读。
+
+中英文采用统一的本机无衬线字体，正文为 18px、1.8 倍行高。标题区、细边框、轻阴影与章节留白形成清晰层次，单栏正文限制行宽。三页切换标签突出当前页面，链接支持悬停与键盘焦点；标题区的轻量淡入与链接过渡遵循系统的减少动态效果设置。
 
 阅读导航在所有屏宽下固定于左侧，长目录独立滚动，支持折叠、键盘操作、原生锚点跳转与返回目录。窄屏收窄侧栏并将双语段落改为上下排列。布局与样式分别见 [layout.md](skills/literature-reading/references/layout.md) 和 [reading.css](skills/literature-reading/assets/reading.css)。
+
+### 🔗 三份网页自由切换
+
+同一篇论文的三个文件保存在同一目录，每页标题区均提供以下阅读入口。
+
+| 页面入口 | 对应文件         | 本页目录                                         |
+| -------- | ---------------- | ------------------------------------------------ |
+| 论文总结 | `summary.html`   | 研究背景、研究内容、研究方法、研究目的、研究结论 |
+| 图表解释 | `figures.html`   | 原文各图号，子图保留在所属图内                   |
+| 中英对照 | `bilingual.html` | 原文章节与小节，缺少可靠标题时按 PDF 页码        |
+
+任一页面均可直接跳转到另外两份已完成的材料，链接在当前标签页打开。页面间使用相对路径，整个目录移动后仍可离线互跳；左侧目录负责本页章节定位。
+
+按阶段交付时，待生成页面的入口先显示为文本。每完成一个阶段，新页面和此前已交付页面中的相应入口都会同步更新为有效链接。用户只要求部分阶段时，入口对应实际生成的阅读文件。
 
 ---
 
@@ -107,10 +125,37 @@ Literature Reading 将英文科研论文整理为中文总结、逐图复述和�
 
 ## 📁 仓库内容
 
-| 文件                                                                   | 用途                                               |
-| ---------------------------------------------------------------------- | -------------------------------------------------- |
-| [SKILL.md](skills/literature-reading/SKILL.md)                         | 中文核心指令，定义内容边界、三阶段流程与交付规范。 |
-| [SKILL.EN.md](skills/literature-reading/SKILL.EN.md)                   | 核心指令的英文版。                                 |
-| [references/layout.md](skills/literature-reading/references/layout.md) | HTML 页面骨架、卡片结构及各文件的目录与锚点规则。  |
-| [assets/reading.css](skills/literature-reading/assets/reading.css)     | 三阶段共用的排版、配色、导航与响应式样式。         |
-| [agents/openai.yaml](skills/literature-reading/agents/openai.yaml)     | 技能界面的显示名称与简短说明。                     |
+| 文件                                                                   | 用途                                                            |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [SKILL.md](skills/literature-reading/SKILL.md)                         | 中文核心指令，定义内容边界、三阶段流程与交付规范。              |
+| [SKILL.EN.md](skills/literature-reading/SKILL.EN.md)                   | 核心指令的英文版。                                              |
+| [references/layout.md](skills/literature-reading/references/layout.md) | HTML 页面骨架、暖纸学术布局、三页切换及各文件的目录与锚点规则。 |
+| [assets/reading.css](skills/literature-reading/assets/reading.css)     | 三阶段共用的字体、配色、留白、导航、轻量交互与响应式样式。      |
+| [agents/openai.yaml](skills/literature-reading/agents/openai.yaml)     | 技能界面的显示名称与简短说明。                                  |
+
+---
+
+<a name="建设者"></a>
+
+## 🤝 建设者
+
+感谢每一位参与本仓库建设的贡献者。
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="120">
+      <a href="https://github.com/QingchenJia">
+        <img src="https://avatars.githubusercontent.com/u/163372309?v=4&amp;s=160" width="80" height="80" alt="QingchenJia 的头像"><br>
+        <sub><b>QingchenJia</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="120">
+      <a href="https://github.com/yuan222-png">
+        <img src="https://avatars.githubusercontent.com/u/237383760?v=4&amp;s=160" width="80" height="80" alt="yuan222-png 的头像"><br>
+        <sub><b>yuan222-png</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+[查看全部贡献者](https://github.com/yuan222-png/literature-reading-skill/graphs/contributors)
