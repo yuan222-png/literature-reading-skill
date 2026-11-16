@@ -29,7 +29,7 @@
 
 ## 📚 Overview
 
-Literature Reading turns English research papers into Chinese summaries, figure-by-figure explanations, and full English–Chinese parallel texts, helping Chinese-speaking readers progress from an overview to a close reading of the original paper.
+Literature Reading turns English research papers into Chinese summaries, figure-reading guides with faithful restatements of the authors’ analysis, and full English–Chinese parallel texts, helping Chinese-speaking readers progress from an overview to a close reading of the original paper.
 
 Provide a paper as a PDF, attachment, or full-text link. The skill delivers `summary.html`, `figures.html`, and `bilingual.html` in sequence. It provides a link as soon as each file is complete and continues with the remaining stages in the current task. All three pages share a warm academic-paper layout and link directly to one another. You can read the summary, browse the original figures, and return to the figure restatements and parallel text for a closer reading.
 
@@ -44,12 +44,12 @@ The repository contains skill instructions, an HTML layout reference, and shared
 | Reading need                                                             | How the skill helps                                                                                                                                                    |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ⚡ **Quickly understand what a paper studies**                           | Organizes source information under five headings covering research background, content, methods, objectives, and conclusions.                                          |
-| 🔍 **Understand complex figures alongside the text**                     | Restates each figure and panel, including labels, experimental controls, statistical information, and the authors’ explanations, with locations in the original paper. |
+| 🔍 **Understand complex figures alongside the text**                     | Explains curves, points, symbols, and needed foundations with sources, then separately restates the authors’ analysis and conclusions. |
 | 📑 **Read a long English paper paragraph by paragraph**                  | Pairs the original English with a Chinese translation while preserving sections, captions, tables, equations, and in-text citations.                                   |
 | 🔗 **Switch between the three reading materials**                        | Each page provides links to the paper summary, figure explanations, and parallel text, opening directly in the current tab.                                             |
-| 🧩 **Distinguish the paper’s statements from additional interpretation** | Keeps the output grounded in the paper and its available supplementary materials, preserving attribution, hypotheses, and uncertainty.                                 |
+| 🧩 **Distinguish the paper’s statements from additional interpretation** | Allows sourced foundational knowledge in figure guides, while study results, analyses, and conclusions follow the paper without independent deductions.                                 |
 
-Every stage relies on information explicitly stated or labeled in the paper and any appendices or supplementary materials obtained for that paper. Original numerical values, attribution, speculation, and uncertainty are preserved. Significance, qualifying conditions, or limitations explicitly discussed by the authors remain alongside the relevant conclusions.
+Summaries, translations, and study-specific analyses rely on the paper and its obtained supplementary materials. Figure guides may add researched, clearly attributed foundational knowledge to help readers understand a figure independently. Original numerical values, attribution, speculation, and uncertainty are preserved. Significance, qualifying conditions, or limitations explicitly discussed by the authors remain alongside the relevant conclusions.
 
 ---
 
@@ -69,11 +69,11 @@ Read the paper’s main text, key methods, results, discussion, and figure capti
 
 Important conclusions include source locations for reference. All five headings and navigation entries are retained, with an empty body where the source provides no corresponding content. Summaries and restatements use Simplified Chinese, retaining essential English terminology.
 
-### 2. 🔬 Figure-by-figure and panel-by-panel restatements
+### 2. 🔬 Figure-reading guides and faithful restatement of the paper’s analysis
 
 Inspect the original figures and cross-check them against captions, the main text, and relevant methods. The body and navigation of `figures.html` follow the original figure numbers, with one menu entry per figure and panels kept within their parent figure. Coverage includes obtained main-text figures, graphical abstracts, standalone schematics, and supplementary figures. Supplementary figures retain numbers such as `Fig. S1`, and unnumbered graphics use their original names.
 
-Restate purposes, figure elements, experiments and results for each panel, statistical information, and the authors’ conclusions and explanations explicitly provided by the source. Where possible, embed clear original figures or complete crops for offline use, retaining labels, legends, and source page references. A reading link is provided when the file is complete.
+Within each figure, separate the **figure-reading guide**, which explains axes, curves, points, symbols, metrics, and necessary foundations using the paper and targeted, cited research, from **analysis and conclusions in the paper**, which follows the authors’ explicit statements only. Confirm study-specific mappings in this paper rather than guessing conventional meanings. Do not independently explain trends, rank methods, derive results, or draw conclusions. Where possible, embed clear original figures or complete crops for offline use, retaining labels, legends, and source page references. A reading link is provided when the file is complete.
 
 ### 3. 🔤 Full English–Chinese parallel text
 
@@ -111,7 +111,7 @@ During staged delivery, entries for pending pages appear as plain text. After ea
 
 Load `skills/literature-reading/` in an agent environment that supports this skill format, provide a paper as a PDF, attachment, or full-text link, and specify the reading scope. For example, use the following request.
 
-> Use literature-reading to study this paper in depth, delivering a Chinese summary, figure-by-figure and panel-by-panel restatements, and the full English–Chinese parallel text in sequence.
+> Use literature-reading to study this paper in depth, delivering a Chinese summary, figure-reading guides with faithful restatements of the paper’s analysis, and the full English–Chinese parallel text in sequence.
 
 By default, all three stages run consecutively, continuing automatically between stages. You can explicitly request a particular stage, selected sections, a different sequence, or a delivery format. Multiple papers use separate output subdirectories.
 
