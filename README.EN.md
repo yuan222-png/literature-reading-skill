@@ -41,13 +41,13 @@ The repository contains skill instructions, an HTML layout reference, and shared
 
 ## 🎯 Problems it solves
 
-| Reading need                                                             | How the skill helps                                                                                                                                                    |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ⚡ **Quickly understand what a paper studies**                           | Organizes source information under five headings covering research background, content, methods, objectives, and conclusions.                                          |
-| 🔍 **Understand complex figures alongside the text**                     | Explains curves, points, symbols, and needed foundations with sources, then separately restates the authors’ analysis and conclusions. |
-| 📑 **Read a long English paper paragraph by paragraph**                  | Pairs the original English with a Chinese translation while preserving sections, captions, tables, equations, and in-text citations.                                   |
-| 🔗 **Switch between the three reading materials**                        | Each page provides links to the paper summary, figure explanations, and parallel text, opening directly in the current tab.                                             |
-| 🧩 **Distinguish the paper’s statements from additional interpretation** | Allows sourced foundational knowledge in figure guides, while study results, analyses, and conclusions follow the paper without independent deductions.                                 |
+| Reading need                                                             | How the skill helps                                                                                                                                     |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚡ **Quickly understand what a paper studies**                           | Organizes source information under five headings covering research background, content, methods, objectives, and conclusions.                           |
+| 🔍 **Understand complex figures alongside the text**                     | Explains curves, points, symbols, and needed foundations with sources, then separately restates the authors’ analysis and conclusions.                  |
+| 📑 **Read a long English paper paragraph by paragraph**                  | Pairs the original English with a Chinese translation while preserving sections, captions, tables, equations, and in-text citations.                    |
+| 🔗 **Switch between the three reading materials**                        | Each page provides links to the paper summary, figure explanations, and parallel text, opening directly in the current tab.                             |
+| 🧩 **Distinguish the paper’s statements from additional interpretation** | Allows sourced foundational knowledge in figure guides, while study results, analyses, and conclusions follow the paper without independent deductions. |
 
 Summaries, translations, and study-specific analyses rely on the paper and its obtained supplementary materials. Figure guides may add researched, clearly attributed foundational knowledge to help readers understand a figure independently. Original numerical values, attribution, speculation, and uncertainty are preserved. Significance, qualifying conditions, or limitations explicitly discussed by the authors remain alongside the relevant conclusions.
 
@@ -83,20 +83,20 @@ Navigation preserves the original section and subsection numbering, names, hiera
 
 ### 🎨 Consistent HTML styling
 
-All three stages deliver UTF-8 HTML files that open independently offline. They share the same embedded CSS, with images and necessary equation resources also embedded. Pages use a warm academic-paper aesthetic with ivory backgrounds, warm-white cards, ink text, pine-green accents, and pale-sage source metadata bars.
+All three stages deliver UTF-8 HTML files that open independently offline, sharing the same embedded CSS and lightweight progressive-enhancement script, with images and necessary equation resources also embedded. Pages use a warm academic-paper and editorial-journal aesthetic: warm ivory paper backgrounds, warm-white cards, deep ink text, and a single muted pine-green accent. In the figure file, pure-white `.figure-plate` mounts hold original figures (with `:target` click-to-zoom lightbox), ochre-ruled callouts present external foundational knowledge, and soft pine-green plates hold the authors' analysis and conclusions; tables use academic three-line booktabs styling; adjacent bilingual cards join into a continuous parallel ledger.
 
-English and Chinese share the same local sans-serif font stack, with 18px body text and 1.8 line height. The title area, fine borders, light shadows, and section spacing establish a clear hierarchy, while single-column text has a controlled line length. File-switching tabs highlight the current page, and links provide hover and keyboard focus states. The title area's subtle fade-in and link transitions respect the system's reduced-motion preference.
+Font stacks pair Latin and CJK typefaces by role (display serif for the main title, academic serif for the English source column, and sans-serif for Chinese prose and section headings) across a clear typographic scale (18px body, 16px captions and tables, 15px navigation, 14px tabular-numeral metadata, and 12.5px micro-labels). Built-in dark mode (keeping figure plates white for faithful chart colors), print styles, and a top scroll progress hairline are included while respecting reduced-motion preferences.
 
-Reading navigation stays fixed on the left at every screen width. Long menus scroll independently, with support for collapsing, keyboard operation, native anchor links, and returning to the menu. Narrow screens reduce the sidebar width and stack each bilingual paragraph pair vertically. Layout and styling are defined in [layout.md](skills/literature-reading/references/layout.md) and [reading.css](skills/literature-reading/assets/reading.css).
+Reading navigation stays fixed on the left at every screen width. Long menus scroll independently, supporting active-section scroll-spy, collapsing into a slim vertical rail, keyboard operation, native anchor links, and returning to the menu. Narrow screens automatically collapse the sidebar rail and stack each bilingual paragraph pair vertically. Layout and styling are defined in [layout.md](skills/literature-reading/references/layout.md), [reading.css](skills/literature-reading/assets/reading.css), and [reading.js](skills/literature-reading/assets/reading.js).
 
 ### 🔗 Navigation between the three pages
 
 The three files for each paper are saved in the same directory. Each page's title area provides the following reading entries.
 
-| Page entry | File | In-page navigation |
-| --- | --- | --- |
-| 论文总结 (Paper summary) | `summary.html` | Research background, content, methods, objectives, and conclusions |
-| 图表解释 (Figure explanations) | `figures.html` | Original figure numbers, with panels kept within their parent figures |
+| Page entry                               | File             | In-page navigation                                                                     |
+| ---------------------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| 论文总结 (Paper summary)                 | `summary.html`   | Research background, content, methods, objectives, and conclusions                     |
+| 图表解释 (Figure explanations)           | `figures.html`   | Original figure numbers, with panels kept within their parent figures                  |
 | 中英对照 (English–Chinese parallel text) | `bilingual.html` | Original sections and subsections, or PDF pages when reliable headings are unavailable |
 
 Each page links directly to the other two completed reading materials in the current tab. Relative links keep the pages navigable offline when the entire directory is moved. The left-hand menu provides navigation within the current page.
@@ -125,13 +125,14 @@ If only an abstract is available, the skill can first deliver a summary explicit
 
 ## 📁 Repository contents
 
-| File                                                                   | Purpose                                                                                                     |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [SKILL.md](skills/literature-reading/SKILL.md)                         | Core Chinese instructions defining content boundaries, the three-stage workflow, and delivery requirements. |
-| [SKILL.EN.md](skills/literature-reading/SKILL.EN.md)                   | English edition of the core instructions.                                                                   |
-| [references/layout.md](skills/literature-reading/references/layout.md) | HTML page skeleton, warm academic-paper layout, file-switching navigation, and per-file menu and anchor rules. |
-| [assets/reading.css](skills/literature-reading/assets/reading.css)     | Shared fonts, colors, spacing, navigation, subtle interactions, and responsive styling for all three stages. |
-| [agents/openai.yaml](skills/literature-reading/agents/openai.yaml)     | Display name and short description for the skill interface.                                                 |
+| File                                                                   | Purpose                                                                                                               |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [SKILL.md](skills/literature-reading/SKILL.md)                         | Core Chinese instructions defining content boundaries, the three-stage workflow, and delivery requirements.           |
+| [SKILL.EN.md](skills/literature-reading/SKILL.EN.md)                   | English edition of the core instructions.                                                                             |
+| [references/layout.md](skills/literature-reading/references/layout.md) | HTML page skeleton, warm editorial layout, file-switching navigation, and per-file menu and anchor rules.             |
+| [assets/reading.css](skills/literature-reading/assets/reading.css)     | Shared typographic scale, colors, figure plates/callouts/parallel ledger, dark & print modes, and responsive styling. |
+| [assets/reading.js](skills/literature-reading/assets/reading.js)       | Embedded offline progressive-enhancement script (sidebar scroll-spy and initial narrow-screen collapsing).            |
+| [agents/openai.yaml](skills/literature-reading/agents/openai.yaml)     | Display name and short description for the skill interface.                                                           |
 
 ---
 
